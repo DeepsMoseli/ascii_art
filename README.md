@@ -1,2 +1,4 @@
 # ascii_art
- creat asci art of images
+ creat ascii art of images
+
+![me_special](me_special.jpg)
