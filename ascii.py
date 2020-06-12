@@ -19,10 +19,10 @@ class Ascii:
 
     def resize_image(self,image):
         width, height = image.size
-        self.new_width = width
-        self.new_height = height 
-        #ratio =  (height/width)
-        #self.new_height = int(self.new_width * ratio)
+        self.new_width = int(width*0.7)
+        #self.new_height = height 
+        ratio =  (height/width)
+        self.new_height = int(self.new_width * ratio)
         resized_image = image.resize((self.new_width,self.new_height))
         return resized_image
 
@@ -39,7 +39,7 @@ class Ascii:
     def text_image(self, text_path, font_path = None):
         """
         This function was taken from: https://stackoverflow.com/questions/29760402/converting-a-txt-file-to-an-image-in-python
-        
+        and changed for my needs
         Convert text file to a grayscale image with black characters on a white background.
     
         arguments:
@@ -109,7 +109,8 @@ class video:
         self.render = None
         self.done  = False
         self.path = "video/"
-        self.frames = 0
+        self.frames = 10
+        self.time = 60
         self.output_path = "output/"
         self.im_array = []
         self.aski = Ascii(200)
@@ -139,25 +140,21 @@ class video:
     def videoCreator(self):
         h,w,c = cv2.imread(self.output_path+str(1)+".jpg").shape
         size = (w,h)
-        out = cv2.VideoWriter(self.path+"video_edit.mp4",cv2.VideoWriter_fourcc(*'MP4V'),20, size)
+        out = cv2.VideoWriter(self.path+"video_edit1.avi",cv2.VideoWriter_fourcc(*'XVID'),int(self.frames/self.time), size)
         for k in tqdm(range(1,self.frames+1)):
             im = cv2.imread(self.output_path+str(k)+".jpg")
-            out.write(im)
+            try:
+                out.write(im)
+            except Exception as e:
+                print(e)
         out.release()
+        cv2.destroyAllWindows() 
  
         print("Images to video complete")    
             
-        
-#aski = Ascii(200)
-#aski.main("imageme.jpg", 1)
-
 vid = video()
-vid.frameCapture("Hand_Washing.mp4")
+vid.frameCapture("Space_Ship.mp4")
 vid.videoCreator()
-
-
-
-
 
 
 
